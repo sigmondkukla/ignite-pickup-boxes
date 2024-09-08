@@ -11,7 +11,7 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'crud',
-                    component: () => import('@/views/pages/Crud.vue')
+                    component: () => import('@/views/Crud.vue')
                 },
             ]
         },
