@@ -1,8 +1,7 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
-import AppConfigurator from './AppConfigurator.vue';
 
-const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
+const { toggleDarkMode, isDarkTheme } = useLayout();
 </script>
 
 <template>
@@ -88,32 +87,15 @@ const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
         </div>
 
         <div class="layout-topbar-actions">
-            <div class="layout-config-menu">
+            <div class="layout-topbar-menu hidden lg:block">
                 <button type="button" class="layout-topbar-action" @click="toggleDarkMode">
                     <i :class="['pi', { 'pi-moon': isDarkTheme, 'pi-sun': !isDarkTheme }]"></i>
+                    <span>Dark Mode</span>
                 </button>
-                <!-- <div class="relative">
-                    <button
-                        v-styleclass="{ selector: '@next', enterFromClass: 'hidden', enterActiveClass: 'animate-scalein', leaveToClass: 'hidden', leaveActiveClass: 'animate-fadeout', hideOnOutsideClick: true }"
-                        type="button" class="layout-topbar-action layout-topbar-action-highlight">
-                        <i class="pi pi-palette"></i>
-                    </button>
-                    <AppConfigurator />
-                </div> -->
-            </div>
-
-            <button class="layout-topbar-menu-button layout-topbar-action"
-                v-styleclass="{ selector: '@next', enterFromClass: 'hidden', enterActiveClass: 'animate-scalein', leaveToClass: 'hidden', leaveActiveClass: 'animate-fadeout', hideOnOutsideClick: true }">
-                <i class="pi pi-ellipsis-v"></i>
-            </button>
-
-            <div class="layout-topbar-menu hidden lg:block">
-                <div class="layout-topbar-menu-content">
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-cog"></i>
-                        <span>Settings</span>
-                    </button>
-                </div>
+                <button type="button" class="layout-topbar-action">
+                    <i class="pi pi-cog"></i>
+                    <span>Settings</span>
+                </button>
             </div>
         </div>
     </div>

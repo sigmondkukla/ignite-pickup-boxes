@@ -9,7 +9,7 @@ onMounted(() => {
 });
 
 const toast = useToast();
-const dt = ref();
+const bu = ref();
 const items = ref();
 const itemDialog = ref(false);
 const deleteItemDialog = ref(false);
@@ -107,32 +107,32 @@ function deleteSelectedItems() {
                 <template #end>
                 </template>
             </Toolbar>
-
+            <!-- FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown -->
             <DataTable ref="dt" v-model:selection="selectedItems" :value="items" dataKey="id" :paginator="true"
                 :rows="10" :filters="filters"
-                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[10, 20, 30]"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items">
 
                 <!-- Header and searchbar -->
                 <template #header>
                     <div class="flex flex-wrap gap-2 items-center justify-between">
-                        <h4 class="m-0">Manage Items</h4>
+                        <h4 class="m-0 font-bold">Manage Prints</h4>
                         <IconField>
                             <InputIcon>
                                 <i class="pi pi-search" />
                             </InputIcon>
-                            <InputText v-model="filters['global'].value" placeholder="Search..." />
+                            <InputText v-model="filters['global'].value" placeholder="Search" />
                         </IconField>
                     </div>
                 </template>
 
                 <Column selectionMode="multiple" style="width: 3rem"></Column>
-                <Column field="print_number" header="Print Number" sortable style="min-width: 8rem"></Column>
+                <Column field="print_number" header="Print #" sortable style="min-width: 8rem"></Column>
                 <Column field="email" header="Email" sortable style="min-width: 16rem"></Column>
-                <Column field="code" header="Code" sortable style="min-width: 12rem"></Column>
-                <Column field="box_id" header="Box Number" sortable style="min-width: 12rem"></Column>
-                <Column style="min-width: 12rem">
+                <Column field="box_id" header="Box #" sortable style="min-width: 8rem"></Column>
+                <Column field="code" header="Code" style="min-width: 6rem"></Column>
+                <Column style="min-width: 8rem" header="Actions">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="editItem(slotProps.data)" />
                         <Button icon="pi pi-trash" outlined rounded severity="danger"
