@@ -7,6 +7,7 @@ export const ItemService = {
                 email: 'kuklasj@clarkson.edu',
                 box_id: '0',
                 print_number: '123',
+                status: '0',
             },
             {
                 id: '1',
@@ -14,6 +15,7 @@ export const ItemService = {
                 email: 'galkodl@clarkson.edu',
                 box_id: '1',
                 print_number: '456',
+                status: '1',
             },
             {
                 id: '2',
@@ -21,6 +23,7 @@ export const ItemService = {
                 email: 'comeaucs@clarkson.edu',
                 box_id: '2',
                 print_number: '789',
+                status: '2',
             },
         ];
     },

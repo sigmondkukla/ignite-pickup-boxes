@@ -132,6 +132,7 @@ function deleteSelectedItems() {
                 <Column field="email" header="Email" sortable style="min-width: 16rem"></Column>
                 <Column field="box_id" header="Box #" sortable style="min-width: 8rem"></Column>
                 <Column field="code" header="Code" style="min-width: 6rem"></Column>
+                <Column field="status" header="Status" sortable style="min-width: 6rem"></Column>
                 <Column style="min-width: 8rem" header="Actions">
                     <template #body="slotProps">
                         <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="editItem(slotProps.data)" />
