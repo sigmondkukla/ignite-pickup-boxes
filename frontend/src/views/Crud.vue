@@ -174,6 +174,10 @@ function deleteSelectedItems() {
                         <Button label="Auto" icon="pi pi-bolt" severity="secondary" @click="" />
                     </InputGroup>
                 </div>
+                <div>
+                    <label for="status" class="block font-bold mb-3">Status</label>
+                    <InputText id="status" v-model.trim="item.status" required="false" fluid autocomplete="false" />
+                </div>
             </div>
 
             <template #footer>
