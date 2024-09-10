@@ -1,6 +1,8 @@
 services:
   db:
     image: postgres:alpine
+    ports:
+      - 5432:5432
     restart: always
     shm_size: 128mb 
     environment:
