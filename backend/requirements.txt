@@ -1,3 +1,6 @@
 pyserial
 psycopg2
 python-dotenv
+flask
+flask-cors
+requests
