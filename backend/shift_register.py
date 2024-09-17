@@ -36,3 +36,6 @@ class ShiftRegister():
         GPIO.output(self.rclk_pin, GPIO.HIGH)
         time.sleep(0.001)
         GPIO.output(self.rclk_pin, GPIO.LOW)
+
+    def cleanup(self):
+        GPIO.cleanup()
