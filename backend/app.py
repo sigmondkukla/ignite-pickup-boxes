@@ -42,7 +42,9 @@ def prints():
 @app.route("/api/scan", methods=["POST"])
 def scan():
     data = request.json
+    print("Incoming scan:", data["code"])
     print_data = database.get_print_by_code(data["code"])
+    print(print_data)
     if print_data is None:
         print("Code not found")
         return jsonify({"success": False})
