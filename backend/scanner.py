@@ -1,7 +1,11 @@
 import serial
 import requests
+import os
 
-ser = serial.Serial('COM9', 9600, 8, 'N', 1, timeout=None)
+if (os.name == "nt"):
+    ser = serial.Serial('COM9', 9600, 8, 'N', 1, timeout=None) # testing on windows
+else:
+    ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=None) # on raspberry pi
 
 while True:
     readline = ser.readline().decode('utf-8')
