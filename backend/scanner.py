@@ -11,6 +11,8 @@ print("Connected to serial port")
 
 while True:
     readline = ser.readline().decode('utf-8')
+    readline = readline.strip()
+    print(f"Start: {readline[0:2]}")
     if readline[0:2] != "P01":
         print(f"Invalid code: {readline}")
         continue
