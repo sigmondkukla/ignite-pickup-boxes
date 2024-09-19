@@ -53,6 +53,3 @@ def scan():
     # Make the box available
     box = database.get_box(print_data.box_id)
     database.set_box_print_id(box.id, -1)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
