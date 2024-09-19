@@ -21,7 +21,7 @@ class Database:
     def __init__(self) -> None:
         load_dotenv()
         self.conn = psycopg2.connect(database="ignite-pickup-boxes",
-                                     host="128.153.181.158",
+                                     host="localhost",
                                      user="ignite-pickup-boxes",
                                      password=os.getenv("POSTGRES_PASSWORD"),
                                      port="5432")
