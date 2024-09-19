@@ -12,6 +12,6 @@ print("Connected to serial port")
 while True:
     readline = ser.readline().decode('utf-8')
     print(f"Scanned: {readline}")
-    requests.post("http://localhost:5000/api/scan", json={"code": readline})
+    requests.post("http://localhost:5000/api/scan", json={"code": readline}, timeout=1)
 
 ser.close()
