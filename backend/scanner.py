@@ -7,6 +7,8 @@ if (os.name == "nt"):
 else:
     ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=None) # on raspberry pi
 
+print("Connected to serial port")
+
 while True:
     readline = ser.readline().decode('utf-8')
     print(f"Scanned: {readline}")
