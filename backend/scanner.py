@@ -10,19 +10,19 @@ else:
 print("Connected to serial port")
 
 while True:
-    readline = ser.readline().decode('utf-8')
-    readline = readline.strip()
-    print(f"Start: {readline[0:2]}")
-    if readline[0:2] != "P01":
+    readline = ser.readline().decode('utf-8').strip()
+
+    # Ensure the code is the right type, then only keep the data
+    if readline[0:3] != "P01":
         print(f"Invalid code: {readline}")
         continue
-    code = readline[2:]
+    code = readline[3:]
     print(f"Scanned: {code}")
+
     try:
-        response = requests.post("http://localhost:5000/api/scan", json={"code": readline}, timeout=1)
+        response = requests.post("http://localhost:5000/api/scan", json={"code": code}, timeout=1)
         print(response.json())
-    except Exception as e:
-        print("Failed to send scan to server")
-        print(e)
+    except requests.exceptions.RequestException as e:
+        print("Failed to send scan to server due to: {e}")
 
 ser.close()
