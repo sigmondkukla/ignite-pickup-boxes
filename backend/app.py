@@ -29,15 +29,15 @@ def prints():
     elif request.method == "POST":
         data = request.json
         database.create_print(data["print_number"], data["email"], data["code"], data["box_id"])
-        return jsonify({"success": True})
+        return jsonify({"status": "success"})
     elif request.method == "PUT":
         data = request.json
         database.set_print_status(data["print_id"], data["status"])
-        return jsonify({"success": True})
+        return jsonify({"status": "success"})
     elif request.method == "DELETE":
         data = request.json
         database.delete_print(data["print_id"])
-        return jsonify({"success": True})
+        return jsonify({"status": "success"})
     
 @app.route("/api/scan", methods=["POST"])
 def scan():
@@ -47,9 +47,10 @@ def scan():
     print(print_data)
     if print_data is None:
         print("Code not found")
-        return jsonify({"success": False})
+        return jsonify({"status": "success"})
     # Open the box
     boxes.open_box(print_data.box_id)
     # Make the box available
     box = database.get_box(print_data.box_id)
     database.set_box_print_id(box.id, -1)
+    return jsonify({"status": "success"})
