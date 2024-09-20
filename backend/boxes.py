@@ -26,7 +26,7 @@ class Boxes():
         box_activated = (1 << box_num) ^ all_deactivated # Bitshifts a 1 from bit 0 to the desired box number, then XORs it with all_deactivated
         
         self.sr.write(box_activated) # Bitshifts a 1 from bit 0 to the desired box number
-        time.sleep(0.1) # Wait long enough for the solenoid to open fully
+        time.sleep(0.5) # Wait long enough for the solenoid to open fully
         self.deactivate_all() # Deactivate all boxes
 
     def cleanup(self):
