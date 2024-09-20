@@ -47,7 +47,7 @@ def scan():
     print(print_data)
     if print_data is None:
         print("Code not found")
-        return jsonify({"status": "success"})
+        return jsonify({"status": "error", "message": "Code not found"})
     # Open the box
     boxes.open_box(print_data.box_id)
     # Make the box available
