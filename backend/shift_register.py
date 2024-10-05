@@ -1,3 +1,5 @@
+# Likely will be unused if we use a GPIO expander or slave microcontroller
+
 import RPi.GPIO as GPIO
 import time
 
