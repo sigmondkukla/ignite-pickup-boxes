@@ -6,7 +6,7 @@ import database as db
 from boxes import Boxes
 
 NUM_BOXES = 8 # Number of boxes in the system
-BOX_PINS = [29, 31, 33, 35, 37, 39, 36, 38, 40]
+BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
 
 load_dotenv()
 app = Flask(__name__)
