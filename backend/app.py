@@ -5,10 +5,8 @@ from dotenv import load_dotenv
 import database as db
 from boxes import Boxes
 
-SER_PIN = 11 # GPIO board pin connected to serial data of shift register
-SRCLK_PIN = 13 # GPIO board pin connected to the shift register clock pin
-RCLK_PIN = 15 # GPIO board pin connected to the storage register clock pin (latch pin)
 NUM_BOXES = 8 # Number of boxes in the system
+BOX_PINS = [29, 31, 33, 35, 37, 39, 36, 38, 40]
 
 load_dotenv()
 app = Flask(__name__)
@@ -16,7 +14,7 @@ app.secret_key = os.getenv("FLASK_SECRET_KEY")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 database = db.Database()
-boxes = Boxes(NUM_BOXES, SER_PIN, SRCLK_PIN, RCLK_PIN)
+boxes = Boxes(NUM_BOXES, BOX_PINS)
 
 @app.route("/api", methods=["GET"])
 def api():
