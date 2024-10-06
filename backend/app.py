@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import database as db
 from boxes import Boxes
+from emailer import Emailer
 
 NUM_BOXES = 8 # Number of boxes in the system
 BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
@@ -13,8 +14,16 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-database = db.Database()
+database = db.Database(database=os.getenv("PG_DATABASE"),
+                       user=os.getenv("PG_USER"),
+                       password=os.getenv("PG_PASSWORD"),
+                       host=os.getenv("PG_HOST"),
+                       port=os.getenv("PG_PORT"))
+
 boxes = Boxes(NUM_BOXES, BOX_PINS)
+
+emailer = Emailer(email_user=os.getenv("EMAIL_USER"),
+                  email_password=os.getenv("EMAIL_PASSWORD"))
 
 @app.route("/api", methods=["GET"])
 def api():
