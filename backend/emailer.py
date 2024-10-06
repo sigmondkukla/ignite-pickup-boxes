@@ -3,53 +3,44 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-
 class Emailer:
     def __init__(self, email_user, email_password) -> None:
         self.email_user = email_user
         self.email_password = email_password
-        
 
-strTo = 'to@example.com'
+    def send_pickup_email(self, to: str, print_number):
+        # Create the root message and fill in the from, to, and subject headers
+        msgRoot = MIMEMultipart('related')
+        msgRoot['Subject'] = 'Your print is ready for pickup!'
+        msgRoot['From'] = self.email_user
+        msgRoot['To'] = to
+        msgRoot.preamble = 'Use this QR code to unlock your pickup box!'
 
-def send_pickup_email():
+        # Encapsulate the plain and HTML versions of the message body in an
+        # 'alternative' part, so message agents can decide which they want to display.
+        msgAlternative = MIMEMultipart('alternative')
+        msgRoot.attach(msgAlternative)
 
-    # Create the root message and fill in the from, to, and subject headers
-    msgRoot = MIMEMultipart('related')
-    msgRoot['Subject'] = 'Your print is ready for pickup!'
-    msgRoot['From'] = email_from
-    msgRoot['To'] = strTo
-    msgRoot.preamble = 'Collect your print from the pickup boxes outside the makerspace.'
+        # Plain text part
+        msgText = MIMEText('This email client does not support HTML emails. Please ask a Maker Mentor to unlock your box for you.', 'plain')
+        msgAlternative.attach(msgText)
 
-    # Encapsulate the plain and HTML versions of the message body in an
-    # 'alternative' part, so message agents can decide which they want to display.
-    msgAlternative = MIMEMultipart('alternative')
-    msgRoot.attach(msgAlternative)
+        # HTML part
+        msgText = MIMEText('Hi Maker!<br><br>Thank you for submitting a 3D print to the Makerspace. The print you submitted has finished printing, and can now be picked up from the boxes outside the Makerspace.<br><br>Use this QR code to unlock your box:<br><img src="cid:qrcode">', 'html')
+        msgAlternative.attach(msgText)
 
-    msgText = MIMEText('This is the alternative plain text message.')
-    msgAlternative.attach(msgText)
+        # This example assumes the image is in the current directory
+        fp = open('test.jpg', 'rb')
+        msgImage = MIMEImage(fp.read())
+        fp.close()
 
-    # We reference the image in the IMG SRC attribute by the ID we give it below
-    msgText = MIMEText('<b>Some <i>HTML</i> text</b> and an image.<br><img src="cid:image1"><br>Nifty!', 'html')
-    msgAlternative.attach(msgText)
+        # Define the image's ID as referenced above and attach it
+        msgImage.add_header('Content-ID', '<qrcode>')
+        msgRoot.attach(msgImage)
 
-    # This example assumes the image is in the current directory
-    fp = open('test.jpg', 'rb')
-    msgImage = MIMEImage(fp.read())
-    fp.close()
-
-    # Define the image's ID as referenced above
-    msgImage.add_header('Content-ID', '<image1>')
-    msgRoot.attach(msgImage)
-
-    smtp = smtplib.SMTP('smtp.gmail.com', 587)
-    # start TLS for security
-    smtp.starttls()
-    # Authentication
-    smtp.login("***REMOVED***", "***REMOVED***")
-    # message to be sent
-    message = "Test email"
-    # sending the mail
-    smtp.sendmail("***REMOVED***", "***REMOVED***", message)
-    # terminating the session
-    smtp.quit()
+        # Make a connection, send the email, then close the connection
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.starttls()
+        smtp.login(self.email_user, self.email_password)
+        smtp.sendmail(self.email_user, to, msgRoot.as_string())
+        smtp.quit()

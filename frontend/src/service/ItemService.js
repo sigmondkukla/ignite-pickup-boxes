@@ -4,7 +4,7 @@ export const ItemService = {
             {
                 id: '0',
                 code: '123456',
-                email: '***REMOVED***',
+                email: 'kuklasj@clarkson.edu',
                 box_id: '0',
                 print_number: '123',
                 status: '0',
