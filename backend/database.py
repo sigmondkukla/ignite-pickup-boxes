@@ -1,6 +1,4 @@
 import psycopg2
-from dotenv import load_dotenv
-import os
 
 class Box:
     def __init__(self, id, print_id, assign_enabled):
@@ -18,13 +16,8 @@ class Print:
         self.status = status 
 
 class Database:
-    def __init__(self) -> None:
-        load_dotenv()
-        self.conn = psycopg2.connect(database="ignite-pickup-boxes",
-                                     host="localhost",
-                                     user="ignite-pickup-boxes",
-                                     password=os.getenv("POSTGRES_PASSWORD"),
-                                     port="5432")
+    def __init__(self, database: str, host: str, user: str, password: str, port: str) -> None:
+        self.conn = psycopg2.connect(database=database, host=host, user=user, password=password, port=port)
         self.cur = self.conn.cursor()
 
         self.ensure_tables()
