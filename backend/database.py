@@ -84,6 +84,10 @@ class Database:
         self.cur.execute("UPDATE box SET print_id = %s WHERE id = %s;", (print_id, box_id))
         self.conn.commit()
 
+    def delete_print(self, print_id):
+        self.cur.execute("DELETE FROM print WHERE id = %s;", (print_id,))
+        self.conn.commit()
+
 if __name__ == "__main__":
     db = Database()
     db.fill_box_table(8)
