@@ -1,4 +1,5 @@
 import psycopg2
+import random
 
 class Box:
     def __init__(self, id, print_id, assign_enabled):
@@ -56,7 +57,8 @@ class Database:
         self.cur.execute("SELECT * FROM box WHERE print_id = -1 AND assign_enabled = 1 LIMIT 1;")
         return Box(*self.cur.fetchone())
     
-    def create_print(self, print_number: int, email: str, code: int, box_id: int):
+    def create_print(self, print_number: int, email: str, box_id: int):
+        code = random.randint(100000, 999999)
         self.cur.execute("INSERT INTO print (print_number, email, code, box_id, status) VALUES (%s, %s, %s, %s, %s);", (print_number, email, code, box_id, 0))
         self.conn.commit()
 

@@ -35,7 +35,7 @@ def prints():
         return jsonify([print.to_dict() for print in database.get_prints()])
     elif request.method == "POST":
         data = request.json
-        database.create_print(data["print_number"], data["email"], data["code"], data["box_id"])
+        database.create_print(data["print_number"], data["email"], data["box_id"])
         return jsonify({"status": "success"})
     elif request.method == "PUT":
         data = request.json
