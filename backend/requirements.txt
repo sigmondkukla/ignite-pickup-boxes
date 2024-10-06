@@ -4,3 +4,4 @@ python-dotenv
 flask
 flask-cors
 requests
+qrcode[pil]
