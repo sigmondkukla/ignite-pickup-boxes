@@ -39,7 +39,7 @@ def prints():
         return jsonify({"status": "success"})
     elif request.method == "PUT":
         data = request.json
-        database.set_print_status(data["print_id"], data["status"])
+        database.update_print(data)
         return jsonify({"status": "success"})
     elif request.method == "DELETE":
         data = request.json
