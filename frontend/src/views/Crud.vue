@@ -74,17 +74,6 @@ function deleteItem() {
     });
 }
 
-function findIndexById(id) {
-    let index = -1;
-    for (let i = 0; i < items.value.length; i++) {
-        if (items.value[i].id === id) {
-            index = i;
-            break;
-        }
-    }
-    return index;
-}
-
 function confirmDeleteSelected() {
     deleteItemsDialog.value = true;
 }
@@ -98,6 +87,13 @@ function deleteSelectedItems() {
     deleteItemsDialog.value = false;
     selectedItems.value = null;
     toast.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
+}
+
+function unlockPrint(selectedItem) {
+    ItemService.unlockPrint(selectedItem.id).then(() => {
+        ItemService.getPrints().then((data) => (items.value = data));
+        toast.add({ severity: 'success', summary: 'Successful', detail: 'Print unlocked', life: 3000 });
+    });
 }
 </script>
 
@@ -145,7 +141,7 @@ function deleteSelectedItems() {
                         <Button v-tooltip.bottom="{ value: 'Edit', showDelay: 250 }" icon="pi pi-pencil" outlined
                             rounded class="mr-2" @click="editItem(slotProps.data)" />
                         <Button v-tooltip.bottom="{ value: 'Open box', showDelay: 250 }" icon="pi pi-unlock" outlined
-                            rounded severity="info" class="mr-2" @click="" />
+                            rounded severity="info" class="mr-2" @click="unlockPrint(slotProps.data)" />
                         <Button v-tooltip.bottom="{ value: 'Delete', showDelay: 250 }" icon="pi pi-trash" outlined
                             rounded severity="danger" @click="confirmDeleteItem(slotProps.data)" />
                     </template>
@@ -201,7 +197,8 @@ function deleteSelectedItems() {
         <Dialog v-model:visible="deleteItemDialog" :style="{ width: '450px' }" header="Confirm deletion" :modal="true">
             <div class="flex items-center gap-4">
                 <i class="pi pi-exclamation-triangle !text-3xl" />
-                <span v-if="item">Are you sure you want to delete print <strong>#{{ item.print_number }}</strong>?</span>
+                <span v-if="item">Are you sure you want to delete print <strong>#{{ item.print_number
+                        }}</strong>?</span>
             </div>
             <template #footer>
                 <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemDialog = false" />

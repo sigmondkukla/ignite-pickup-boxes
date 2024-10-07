@@ -61,6 +61,16 @@ const deletePrints = async (ids) => {
     }
 };
 
+const unlockPrint = async (id) => {
+    try {
+        const response = await axios.post(`/prints/unlock`, { id });
+        return response.data;
+    } catch (error) {
+        console.error('Error unlocking print:', error);
+        throw error;
+    }
+}
+
 const ItemService = {
     // Print CRUD
     getPrints,
@@ -68,6 +78,9 @@ const ItemService = {
     deletePrints,
     updatePrint,
     createPrint,
+
+    // Print unlock
+    unlockPrint,
     
     // Boxes
     getNextAvailableBox

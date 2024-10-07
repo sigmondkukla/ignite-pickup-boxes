@@ -49,6 +49,16 @@ def prints():
             database.delete_print(data["id"])
         return jsonify({"status": "success"})
     
+@app.route("/api/prints/unlock", methods=["POST"])
+def unlock_print():
+    data = request.json
+    print_data = database.get_print(data["id"])
+    if print_data is None:
+        return jsonify({"status": "error", "message": "Print not found"})
+    boxes.open_box(print_data.box_id)
+    database.set_print_status(print_data.id, 1)
+    return jsonify({"status": "success"})
+    
 @app.route("/api/get_next_available_box", methods=["GET"])
 def get_next_available_box():
     box = database.get_next_available_box()
