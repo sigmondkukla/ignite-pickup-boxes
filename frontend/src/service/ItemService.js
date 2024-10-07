@@ -1,34 +1,50 @@
-export const ItemService = {
-    getItemsData() {
-        return [
-            {
-                id: '0',
-                code: '123456',
-                email: 'kuklasj@clarkson.edu',
-                box_id: '0',
-                print_number: '123',
-                status: '0',
-            },
-            {
-                id: '1',
-                code: '123456',
-                email: 'galkodl@clarkson.edu',
-                box_id: '1',
-                print_number: '456',
-                status: '1',
-            },
-            {
-                id: '2',
-                code: '123456',
-                email: 'comeaucs@clarkson.edu',
-                box_id: '2',
-                print_number: '789',
-                status: '2',
-            },
-        ];
-    },
+import axios from 'axios';
 
-    getItems() {
-        return Promise.resolve(this.getItemsData());
-    },
+const getPrints = async () => {
+    try {
+        const response = await axios.get('/prints');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching prints:', error);
+        throw error;
+    }
 };
+
+const deletePrint = async (id) => {
+    try {
+        const response = await axios.delete(`/prints`, { data: { id } });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting print:', error);
+        throw error;
+    }
+};
+
+const updatePrint = async (print) => {
+    try {
+        const response = await axios.put(`/prints`, print);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating print:', error);
+        throw error;
+    }
+};
+
+const createPrint = async (print) => {
+    try {
+        const response = await axios.post(`/prints`, print);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating print:', error);
+        throw error;
+    }
+}
+
+const ItemService = {
+    getPrints,
+    deletePrint,
+    updatePrint,
+    createPrint
+};
+
+export default ItemService;

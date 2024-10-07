@@ -1,17 +1,17 @@
 <script setup>
-import { ItemService } from '@/service/ItemService';
+import ItemService from '@/service/ItemService';
 import { FilterMatchMode } from '@primevue/core/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
 
 onMounted(() => {
-    ItemService.getItems().then((data) => (items.value = data));
+    ItemService.getPrints().then((data) => (items.value = data));
 });
 
 const toast = useToast();
-const bu = ref();
 const items = ref();
 const itemDialog = ref(false);
+const newItem = ref(false);
 const deleteItemDialog = ref(false);
 const deleteItemsDialog = ref(false);
 const item = ref({});
@@ -25,6 +25,7 @@ function openNew() {
     item.value = {};
     submitted.value = false;
     itemDialog.value = true;
+    newItem.value = true;
 }
 
 function hideDialog() {
@@ -54,21 +55,23 @@ function saveItem() {
     }
 }
 
-function editItem(prod) {
-    item.value = { ...prod };
+function editItem(item) {
+    item.value = { ...item };
+    newItem.value = false;
     itemDialog.value = true;
 }
 
-function confirmDeleteItem(prod) {
-    item.value = prod;
+function confirmDeleteItem(item) {
+    item.value = item;
     deleteItemDialog.value = true;
 }
 
 function deleteItem() {
-    items.value = items.value.filter((val) => val.id !== item.value.id);
-    deleteItemDialog.value = false;
-    item.value = {};
-    toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
+    ItemService.deleteItem(item.value.id).then(() => {
+        deleteItemDialog.value = false;
+        ItemService.getPrints().then((data) => (items.value = data));
+        toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
+    });
 }
 
 function findIndexById(id) {
@@ -135,9 +138,12 @@ function deleteSelectedItems() {
                 <Column field="status" header="Status" sortable style="min-width: 6rem"></Column>
                 <Column style="min-width: 8rem" header="Actions">
                     <template #body="slotProps">
-                        <Button icon="pi pi-pencil" outlined rounded class="mr-2" @click="editItem(slotProps.data)" />
-                        <Button icon="pi pi-trash" outlined rounded severity="danger"
-                            @click="confirmDeleteItem(slotProps.data)" />
+                        <Button v-tooltip.bottom="{ value: 'Edit', showDelay: 250 }" icon="pi pi-pencil" outlined
+                            rounded class="mr-2" @click="editItem(slotProps.data)" />
+                        <Button v-tooltip.bottom="{ value: 'Open box', showDelay: 250 }" icon="pi pi-unlock" outlined
+                            rounded severity="info" class="mr-2" @click="" />
+                        <Button v-tooltip.bottom="{ value: 'Delete', showDelay: 250 }" icon="pi pi-trash" outlined
+                            rounded severity="danger" @click="confirmDeleteItem(slotProps.data)" />
                     </template>
                 </Column>
             </DataTable>
@@ -159,16 +165,16 @@ function deleteSelectedItems() {
                 <div>
                     <InputGroup>
                         <InputGroupAddon>
-                            <label for="code" class="font-bold">Code</label>
+                            <label for="code" class="font-bold text-surface-700">Code</label>
                         </InputGroupAddon>
-                        <InputText id="code" v-model.trim="item.code" required="true" integeronly fluid />
-                        <Button label="Regenerate" icon="pi pi-refresh" severity="secondary" @click="" />
+                        <InputText id="code" v-model.trim="item.code" disabled="true" integeronly fluid />
+                        <!-- <Button label="Regenerate" icon="pi pi-refresh" severity="secondary" @click="" /> -->
                     </InputGroup>
                 </div>
                 <div>
                     <InputGroup>
                         <InputGroupAddon>
-                            <label for="box_id" class="font-bold">Box Number</label>
+                            <label for="box_id" class="font-bold text-surface-700">Box Number</label>
                         </InputGroupAddon>
                         <InputText id="box_id" v-model.trim="item.box_id" required="true" integeronly fluid />
                         <Button label="Auto" icon="pi pi-bolt" severity="secondary" @click="" />
