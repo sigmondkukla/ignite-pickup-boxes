@@ -91,11 +91,20 @@ class Database:
         self.ensure_cursor()
         code = random.randint(100000, 999999)
         self.cur.execute("INSERT INTO print (print_number, email, code, box_id, status) VALUES (%s, %s, %s, %s, %s);", (print_number, email, code, box_id, 0))
+        # Mark the print number in the box
+        self.cur.execute("UPDATE box SET print_id = %s WHERE id = %s;", (print_number, box_id))
         self.conn.commit()
 
+    # Print status options:
+    # 0: In box
+    # 1: Picked up
+    # 2: Abandoned
     def set_print_status(self, print_id: int, status: int):
         self.ensure_cursor()
         self.cur.execute("UPDATE print SET status = %s WHERE id = %s;", (status, print_id))
+        # make the box available if the print is picked up
+        if status == 1:
+            self.cur.execute("UPDATE box SET print_id = -1 WHERE print_id = %s;", (print_id,))
         self.conn.commit()
 
     def get_print(self, print_id) -> Print:
@@ -126,6 +135,15 @@ class Database:
     def delete_print(self, print_id):
         self.ensure_cursor()
         self.cur.execute("DELETE FROM print WHERE id = %s;", (print_id,))
+        # make the box available
+        self.cur.execute("UPDATE box SET print_id = -1 WHERE print_id = %s;", (print_id,))
+        self.conn.commit()
+
+    def delete_prints(self, print_ids):
+        self.ensure_cursor()
+        self.cur.execute("DELETE FROM print WHERE id IN %s;", (tuple(print_ids),))
+        # make the boxes available
+        self.cur.execute("UPDATE box SET print_id = -1 WHERE print_id IN %s;", (tuple(print_ids),))
         self.conn.commit()
 
     def update_print(self, data):

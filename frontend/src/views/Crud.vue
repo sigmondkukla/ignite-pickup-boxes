@@ -34,40 +34,40 @@ function hideDialog() {
 }
 
 function saveItem() {
-    submitted.value = true;
-
-    if (item?.value.name?.trim()) {
-        if (item.value.id) {
-            item.value.inventoryStatus = item.value.inventoryStatus.value ? item.value.inventoryStatus.value : item.value.inventoryStatus;
-            items.value[findIndexById(item.value.id)] = item.value;
-            toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Updated', life: 3000 });
-        } else {
-            item.value.id = createId();
-            item.value.code = createId();
-            item.value.image = 'item-placeholder.svg';
-            item.value.inventoryStatus = item.value.inventoryStatus ? item.value.inventoryStatus.value : 'INSTOCK';
-            items.value.push(item.value);
+    if (newItem) {
+        ItemService.createPrint(item.value).then(() => {
+            itemDialog.value = false;
+            item.value = {};
+            ItemService.getPrints().then((data) => (items.value = data));
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Created', life: 3000 });
-        }
-
-        itemDialog.value = false;
-        item.value = {};
+        });
+    } else {
+        ItemService.updatePrint(item.value).then(() => {
+            itemDialog.value = false;
+            item.value = {};
+            ItemService.getPrints().then((data) => (items.value = data));
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Updated', life: 3000 });
+        });
     }
+
+    submitted.value = true;
+    itemDialog.value = false;
+    item.value = {};
 }
 
-function editItem(item) {
-    item.value = { ...item };
+function editItem(selectedItem) {
+    item.value = { ...selectedItem };
     newItem.value = false;
     itemDialog.value = true;
 }
 
-function confirmDeleteItem(item) {
-    item.value = item;
+function confirmDeleteItem(selectedItem) {
+    item.value = { ...selectedItem };
     deleteItemDialog.value = true;
 }
 
 function deleteItem() {
-    ItemService.deleteItem(item.value.id).then(() => {
+    ItemService.deletePrint(item.value.id).then(() => {
         deleteItemDialog.value = false;
         ItemService.getPrints().then((data) => (items.value = data));
         toast.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
@@ -90,7 +90,11 @@ function confirmDeleteSelected() {
 }
 
 function deleteSelectedItems() {
-    items.value = items.value.filter((val) => !selectedItems.value.includes(val));
+    ItemService.deletePrints(selectedItems.value.map((item) => item.id)).then(() => {
+        ItemService.getPrints().then((data) => (items.value = data));
+        toast.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
+    });
+
     deleteItemsDialog.value = false;
     selectedItems.value = null;
     toast.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
@@ -177,7 +181,8 @@ function deleteSelectedItems() {
                             <label for="box_id" class="font-bold text-surface-700">Box Number</label>
                         </InputGroupAddon>
                         <InputText id="box_id" v-model.trim="item.box_id" required="true" integeronly fluid />
-                        <Button label="Auto" icon="pi pi-bolt" severity="secondary" @click="" />
+                        <Button label="Auto" icon="pi pi-bolt" severity="secondary"
+                            @click="ItemService.getNextAvailableBox().then((box_id) => (item.box_id = box_id))" />
                     </InputGroup>
                 </div>
                 <div>
@@ -196,7 +201,7 @@ function deleteSelectedItems() {
         <Dialog v-model:visible="deleteItemDialog" :style="{ width: '450px' }" header="Confirm deletion" :modal="true">
             <div class="flex items-center gap-4">
                 <i class="pi pi-exclamation-triangle !text-3xl" />
-                <span v-if="item">Are you sure you want to delete <b>{{ item.name }}</b>?</span>
+                <span v-if="item">Are you sure you want to delete print <strong>#{{ item.print_number }}</strong>?</span>
             </div>
             <template #footer>
                 <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemDialog = false" />

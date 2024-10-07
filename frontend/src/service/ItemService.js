@@ -40,11 +40,37 @@ const createPrint = async (print) => {
     }
 }
 
+const getNextAvailableBox = async () => {
+    try {
+        const response = await axios.get('/get_next_available_box');
+        console.log('getNextAvailableBox data:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching next available box:', error);
+        throw error;
+    }
+}
+
+const deletePrints = async (ids) => {
+    try {
+        const response = await axios.delete(`/prints`, { data: { ids } });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting prints:', error);
+        throw error;
+    }
+};
+
 const ItemService = {
+    // Print CRUD
     getPrints,
     deletePrint,
+    deletePrints,
     updatePrint,
-    createPrint
+    createPrint,
+    
+    // Boxes
+    getNextAvailableBox
 };
 
 export default ItemService;

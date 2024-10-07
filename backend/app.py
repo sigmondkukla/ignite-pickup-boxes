@@ -43,8 +43,16 @@ def prints():
         return jsonify({"status": "success"})
     elif request.method == "DELETE":
         data = request.json
-        database.delete_print(data["print_id"])
+        try: # attempt to delete multuple items, if the ids key is present it will not fail
+            database.delete_prints(data["ids"])
+        except KeyError: # the ids key was not present, so we catch and assume we are deleting a single item
+            database.delete_print(data["id"])
         return jsonify({"status": "success"})
+    
+@app.route("/api/get_next_available_box", methods=["GET"])
+def get_next_available_box():
+    box = database.get_next_available_box()
+    return jsonify(box.id)
     
 @app.route("/api/scan", methods=["POST"])
 def scan():
@@ -61,3 +69,5 @@ def scan():
     box = database.get_box(print_data.box_id)
     database.set_box_print_id(box.id, -1)
     return jsonify({"status": "success"})
+
+
