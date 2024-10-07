@@ -13,7 +13,7 @@ import axios from 'axios';
 
 // Detect base URL from window.location
 const baseURL = window.location.href.split(':5173')[0] + ':5000/api';
-console.log('baseURL:', baseURL);
+// console.log('baseURL:', baseURL);
 axios.defaults.baseURL = baseURL;
 
 const app = createApp(App);
