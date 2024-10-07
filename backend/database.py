@@ -14,20 +14,46 @@ class Print:
         self.email = email
         self.code = code
         self.box_id = box_id
-        self.status = status 
+        self.status = status
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "print_number": self.print_number,
+            "email": self.email,
+            "code": self.code,
+            "box_id": self.box_id,
+            "status": self.status
+        }
 
 class Database:
     def __init__(self, database: str, host: str, user: str, password: str, port: str) -> None:
+        self.database = database
+        self.host = host
+        self.user = user
+        self.password = password
+        self.port = port
+
         self.conn = psycopg2.connect(database=database, host=host, user=user, password=password, port=port)
         self.cur = self.conn.cursor()
 
         self.ensure_tables()
 
+    def ensure_cursor(self) -> None:
+        """Ensure that the cursor is open. If the connection is closed, reopen it. If the cursor is closed, reopen it."""
+        if self.conn.closed:
+            self.conn = psycopg2.connect(database=self.database, host=self.host, user=self.user, password=self.password, port=self.port)
+            self.cur = self.conn.cursor()
+        elif self.cur.closed:
+            self.cur = self.conn.cursor()
+
     def ensure_tables(self) -> None:
+        self.ensure_cursor()
         self.ensure_print_table()
         self.ensure_box_table()
 
     def ensure_print_table(self) -> None:
+        self.ensure_cursor()
         self.cur.execute("""CREATE TABLE IF NOT EXISTS print (
                          id SERIAL PRIMARY KEY, 
                          print_number INTEGER, 
@@ -38,6 +64,7 @@ class Database:
         self.conn.commit()
 
     def ensure_box_table(self) -> None:
+        self.ensure_cursor()
         self.cur.execute("""CREATE TABLE IF NOT EXISTS box (
                          id INTEGER PRIMARY KEY, 
                          print_id INTEGER, 
@@ -45,49 +72,65 @@ class Database:
         self.conn.commit()
 
     def fill_box_table(self, num_boxes: int) -> None:
+        self.ensure_cursor()
         for i in range(num_boxes):
             self.cur.execute("INSERT INTO box (id, print_id, assign_enabled) VALUES (%s, -1, %s);", (i, 1))
         self.conn.commit()
 
     def get_available_boxes(self) -> list[Box]:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM box WHERE print_id = -1 AND assign_enabled = 1;")
         return [Box(*row) for row in self.cur.fetchall()]
     
     def get_next_available_box(self) -> Box:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM box WHERE print_id = -1 AND assign_enabled = 1 LIMIT 1;")
         return Box(*self.cur.fetchone())
     
     def create_print(self, print_number: int, email: str, box_id: int):
+        self.ensure_cursor()
         code = random.randint(100000, 999999)
         self.cur.execute("INSERT INTO print (print_number, email, code, box_id, status) VALUES (%s, %s, %s, %s, %s);", (print_number, email, code, box_id, 0))
         self.conn.commit()
 
     def set_print_status(self, print_id: int, status: int):
+        self.ensure_cursor()
         self.cur.execute("UPDATE print SET status = %s WHERE id = %s;", (status, print_id))
         self.conn.commit()
 
     def get_print(self, print_id) -> Print:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM print WHERE id = %s;", (print_id,))
         return Print(*self.cur.fetchone())
     
     def get_prints(self) -> list[Print]:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM print;")
         return [Print(*row) for row in self.cur.fetchall()]
     
     def get_print_by_code(self, code) -> Print:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM print WHERE code = %s;", (code,))
         return Print(*self.cur.fetchone())
     
     def get_box(self, box_id) -> Box:
+        self.ensure_cursor()
         self.cur.execute("SELECT * FROM box WHERE id = %s;", (box_id,))
         return Box(*self.cur.fetchone())
     
     def set_box_print_id(self, box_id, print_id):
+        self.ensure_cursor()
         self.cur.execute("UPDATE box SET print_id = %s WHERE id = %s;", (print_id, box_id))
         self.conn.commit()
 
     def delete_print(self, print_id):
+        self.ensure_cursor()
         self.cur.execute("DELETE FROM print WHERE id = %s;", (print_id,))
+        self.conn.commit()
+
+    def update_print(self, data):
+        self.ensure_cursor()
+        self.cur.execute("UPDATE print SET print_number = %s, email = %s, code = %s, box_id = %s, status = %s WHERE id = %s;", (data["print_number"], data["email"], data["code"], data["box_id"], data["status"], data["id"]))
         self.conn.commit()
 
 if __name__ == "__main__":
