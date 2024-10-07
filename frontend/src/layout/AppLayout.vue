@@ -5,7 +5,7 @@ import AppTopbar from './AppTopbar.vue';
 </script>
 
 <template>
-    <div class="layout-wrapper" :class="containerClass">
+    <div class="layout-wrapper">
         <app-topbar></app-topbar>
         <div class="layout-main-container">
             <div class="layout-main">
