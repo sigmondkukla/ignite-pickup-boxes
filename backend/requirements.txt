@@ -5,3 +5,4 @@ flask
 flask-cors
 requests
 qrcode[pil]
+fake_rpi
