@@ -36,6 +36,7 @@ def prints():
     elif request.method == "POST":
         data = request.json
         database.create_print(data["print_number"], data["email"], data["box_id"])
+        emailer.send_pickup_email(data["email"], data["code"])
         return jsonify({"status": "success"})
     elif request.method == "PUT":
         data = request.json
