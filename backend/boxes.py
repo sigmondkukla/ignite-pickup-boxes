@@ -1,6 +1,15 @@
 # import shift_register
 import time
-import RPi.GPIO as GPIO
+import os
+
+if os.name == "nt":
+    import sys
+    import fake_rpi
+    sys.modules['RPi'] = fake_rpi.RPi
+    sys.modules['RPi.GPIO'] = fake_rpi.RPi.GPIO
+    import RPi.GPIO as GPIO
+else:
+    import RPi.GPIO as GPIO
 
 class Boxes():
     def __init__(self, num_boxes, box_pins):
