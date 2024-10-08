@@ -108,6 +108,8 @@ function unlockPrint(selectedItem) {
                 </template>
 
                 <template #end>
+                    <Button label="Refresh" icon="pi pi-refresh"
+                        @click="ItemService.getPrints().then((data) => (items = data))" outlined />
                 </template>
             </Toolbar>
             <!-- FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown -->
