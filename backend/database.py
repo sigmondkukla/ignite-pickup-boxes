@@ -121,6 +121,11 @@ class Database:
         self.ensure_cursor()
         self.cur.execute("SELECT * FROM print WHERE code = %s;", (code,))
         return Print(*self.cur.fetchone())
+
+    def get_print_by_number(self, print_number) -> Print:
+        self.ensure_cursor()
+        self.cur.execute("SELECT * FROM print WHERE print_number = %s;", (print_number,))
+        return Print(*self.cur.fetchone())
     
     def get_box(self, box_id) -> Box:
         self.ensure_cursor()
