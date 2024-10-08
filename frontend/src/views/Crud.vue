@@ -34,7 +34,7 @@ function hideDialog() {
 }
 
 function saveItem() {
-    if (newItem) {
+    if (newItem.value) {
         ItemService.createPrint(item.value).then(() => {
             itemDialog.value = false;
             item.value = {};
