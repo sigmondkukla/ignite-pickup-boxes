@@ -92,10 +92,10 @@ const { toggleDarkMode, isDarkTheme } = useLayout();
                     <i :class="['pi', { 'pi-moon': isDarkTheme, 'pi-sun': !isDarkTheme }]"></i>
                     <span>Dark Mode</span>
                 </button>
-                <button type="button" class="layout-topbar-action">
+                <!-- <button type="button" class="layout-topbar-action">
                     <i class="pi pi-cog"></i>
                     <span>Settings</span>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
