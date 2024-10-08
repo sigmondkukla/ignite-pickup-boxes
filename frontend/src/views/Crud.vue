@@ -203,8 +203,9 @@ function unlockPrint(selectedItem) {
                         }}</strong>?</span>
             </div>
             <template #footer>
-                <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemDialog = false" />
-                <Button label="Yes" icon="pi pi-trash" severity="danger" @click="deleteItem" />
+                <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemDialog = false"
+                    outlined />
+                <Button label="Yes" icon="pi pi-trash" severity="danger" @click="deleteItem" outlined />
             </template>
         </Dialog>
 
@@ -215,8 +216,9 @@ function unlockPrint(selectedItem) {
                 <span v-if="item">Are you sure you want to delete all of the selected items?</span>
             </div>
             <template #footer>
-                <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemsDialog = false" />
-                <Button label="Yes" icon="pi pi-trash" severity="danger" text @click="deleteSelectedItems" />
+                <Button label="No" icon="pi pi-times" severity="secondary" text @click="deleteItemsDialog = false"
+                    outlined />
+                <Button label="Yes" icon="pi pi-trash" severity="danger" text @click="deleteSelectedItems" outlined />
             </template>
         </Dialog>
     </div>
