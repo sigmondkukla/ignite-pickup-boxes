@@ -58,7 +58,6 @@ def unlock_print():
     if print_data is None:
         return jsonify({"status": "error", "message": "Print not found"})
     boxes.open_box(print_data.box_id)
-    database.set_print_status(print_data.id, 1)
     return jsonify({"status": "success"})
     
 @app.route("/api/get_next_available_box", methods=["GET"])
@@ -80,6 +79,8 @@ def scan():
     # Make the box available
     box = database.get_box(print_data.box_id)
     database.set_box_print_id(box.id, -1)
+    # Update print status
+    database.set_print_status(print_data.id, 1)
     return jsonify({"status": "success"})
 
 
