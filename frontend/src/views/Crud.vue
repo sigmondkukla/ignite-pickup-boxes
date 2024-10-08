@@ -95,6 +95,19 @@ function unlockPrint(selectedItem) {
         toast.add({ severity: 'success', summary: 'Successful', detail: 'Print unlocked', life: 3000 });
     });
 }
+
+function evaluateStatus(status) {
+    switch (status) {
+        case 0:
+            return 'In Box';
+        case 1:
+            return 'Picked Up';
+        case 2:
+            return 'Abandoned';
+        default:
+            return 'Status error';
+    }
+}
 </script>
 
 <template>
@@ -137,7 +150,11 @@ function unlockPrint(selectedItem) {
                 <Column field="email" header="Email" sortable style="min-width: 16rem"></Column>
                 <Column field="box_id" header="Box #" sortable style="min-width: 8rem"></Column>
                 <Column field="code" header="Code" style="min-width: 6rem"></Column>
-                <Column field="status" header="Status" sortable style="min-width: 6rem"></Column>
+                <Column field="status" header="Status" sortable style="min-width: 6rem">
+                    <template #body="slotProps">
+                        <Tag :value="evaluateStatus(slotProps.data.status)" severity="info" />
+                    </template>
+                </Column>
                 <Column style="min-width: 8rem" header="Actions">
                     <template #body="slotProps">
                         <Button v-tooltip.bottom="{ value: 'Edit', showDelay: 250 }" icon="pi pi-pencil" outlined
