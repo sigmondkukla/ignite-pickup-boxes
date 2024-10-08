@@ -43,7 +43,7 @@ const createPrint = async (print) => {
 const getNextAvailableBox = async () => {
     try {
         const response = await axios.get('/get_next_available_box');
-        console.log('getNextAvailableBox data:', response.data);
+        // console.log('getNextAvailableBox data:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching next available box:', error);
