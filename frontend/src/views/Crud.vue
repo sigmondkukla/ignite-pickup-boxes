@@ -96,7 +96,7 @@ function unlockPrint(selectedItem) {
     });
 }
 
-function evaluateStatus(status) {
+function getStatus(status) {
     switch (status) {
         case 0:
             return 'In Box';
@@ -106,6 +106,19 @@ function evaluateStatus(status) {
             return 'Abandoned';
         default:
             return 'Status error';
+    }
+}
+
+function getStatusColor(status) {
+    switch (status) {
+        case 0:
+            return 'info';
+        case 1:
+            return 'success';
+        case 2:
+            return 'danger';
+        default:
+            return 'info';
     }
 }
 </script>
@@ -152,7 +165,8 @@ function evaluateStatus(status) {
                 <Column field="code" header="Code" style="min-width: 6rem"></Column>
                 <Column field="status" header="Status" sortable style="min-width: 6rem">
                     <template #body="slotProps">
-                        <Tag :value="evaluateStatus(slotProps.data.status)" severity="info" />
+                        <Tag :value="getStatus(slotProps.data.status)"
+                            :severity="getStatusColor(slotProps.data.status)" />
                     </template>
                 </Column>
                 <Column style="min-width: 8rem" header="Actions">
