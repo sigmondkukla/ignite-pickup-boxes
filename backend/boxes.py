@@ -7,7 +7,7 @@ if os.name == "nt":
     import fake_rpi
     sys.modules['RPi'] = fake_rpi.RPi
     sys.modules['RPi.GPIO'] = fake_rpi.RPi.GPIO
-    import RPi.GPIO as GPIO
+    import RPi.GPIO as GPIO # type: ignore
 else:
     import RPi.GPIO as GPIO
 
