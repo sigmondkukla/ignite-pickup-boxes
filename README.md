@@ -5,7 +5,7 @@
 ### Hardware
 
 If you only have a single stack of boxes, only this first list is needed.
-However, if you have more stacks of boxes to control, you'll need 
+However, if you have more stacks of boxes to control, you'll need some additional (cheaper) hardware for each.
 
 #### For the single/master stack of boxes
 
