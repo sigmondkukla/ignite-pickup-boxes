@@ -1,11 +1,18 @@
 import serial
 import requests
 import os
+import argparse
 
-if (os.name == "nt"):
-    ser = serial.Serial('COM9', 9600, 8, 'N', 1, timeout=None) # testing on windows
-else:
-    ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=None) # on raspberry pi
+args = argparse.ArgumentParser()
+args.add_argument("--port", type=str, default="COM9", help="Serial port to connect to")
+port = args.parse_args().port
+
+# if (os.name == "nt"):
+#     ser = serial.Serial('COM9', 9600, 8, 'N', 1, timeout=None) # testing on windows
+# else:
+#     ser = serial.Serial('/dev/ttyACM0', 9600, 8, 'N', 1, timeout=None) # on raspberry pi
+
+ser = serial.Serial(port, 9600, 8, 'N', 1, timeout=None)
 
 print("Connected to serial port")
 
