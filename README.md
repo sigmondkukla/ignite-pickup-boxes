@@ -1,5 +1,37 @@
 # ignite-pickup-boxes
 
+## Requirements
+
+### Hardware
+
+If you only have a single stack of boxes, only this first list is needed.
+However, if you have more stacks of boxes to control, you'll need 
+
+#### For the single/master stack of boxes
+
+- Raspberry Pi (or equivalent)
+  - 5V 3A power supply reccomended
+- 8 channel optoisolated relay board
+- 12V switching power supply
+- Speaker wire
+- Female-female jumper wires
+
+#### (Optional) For multiple stacks of boxes
+
+The master box additionally requires a USB hub with at least one port for each additional slave stack.
+
+**Each additional slave stack:**
+
+- Arduino Nano
+- 8 channel optoisolated relay board
+- Speaker wire
+- Female-female jumper wires
+- (Optional) USB extender for additional scanner
+
+### Internet
+
+A DHCP reserved address with DNS hostname set up would allow for an ideal user experience. However, a mesh VPN such as Tailscale would provide similar functionality if necessary.
+
 ## Installation
 
 1. Clone the repository: `git clone https://github.com/PicoPlanetDev/ignite-pickup-boxes`
@@ -17,4 +49,4 @@
 ## Notes
 
 - When starting up the system, ensure that the solenoid power supply is turned off using the red switch on the back of the boxes
-  - Failure to do so may cause some or all boxes to open as the system initializes
+  - Failure to do so may cause some or all boxes to open before the system pulls the box pins low
