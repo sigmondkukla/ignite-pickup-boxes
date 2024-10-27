@@ -68,19 +68,21 @@ def get_next_available_box():
 @app.route("/api/scan", methods=["POST"])
 def scan():
     data = request.json
-    print("Incoming scan:", data["code"])
+    # print("Incoming scan:", data["code"])
     print_data = database.get_print_by_code(data["code"])
-    print(print_data)
-    if print_data is None:
-        print("Code not found")
-        return jsonify({"status": "error", "message": "Code not found"})
-    # Open the box
-    boxes.open_box(print_data.box_id)
-    # Make the box available
-    box = database.get_box(print_data.box_id)
-    database.set_box_print_id(box.id, -1)
-    # Update print status
-    database.set_print_status(print_data.id, 1)
+    # print(print_data)
+    if print_data is None: # Print not found
+        print("Print not found")
+        return jsonify({"status": "error", "message": "Print not found"})
+    if print_data.print_status == 1:
+        print("Print already picked up")
+        return jsonify({"status": "error", "message": "Print already picked up"})
+    
+    boxes.open_box(print_data.box_id) # Open the box
+    
+    # box = database.get_box(print_data.box_id)
+    database.set_box_print_id(print_data.box_id, -1) # Make the box available again
+    database.set_print_status(print_data.id, 1) # Update print status to picked up
     return jsonify({"status": "success"})
 
 
