@@ -150,7 +150,8 @@ const statuses = ref([
                 :rows="10" :filters="filters"
                 paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[10, 20, 30]"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items">
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} items" sort-field="print_number"
+                sort-order="1">
 
                 <!-- Header and searchbar -->
                 <template #header>
