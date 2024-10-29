@@ -30,7 +30,8 @@ import AppTopbar from './AppTopbar.vue';
                             <li>Click
                                 <Tag value="Save" severity="success" icon="pi pi-check">Save</Tag>
                             </li>
-                            <li>Click the blue unlock button next to the newly created print to open its box
+                            <li>Click the blue <Tag value="Unlock" severity="info" icon="pi pi-unlock"></Tag> button
+                                next to the newly created print to open its box
                             </li>
                             <li>Place the print in the opened box, and close the door</li>
                         </ol>
