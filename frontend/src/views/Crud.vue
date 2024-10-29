@@ -226,7 +226,9 @@ const statuses = ref([
                     <InputText id="status" v-model.trim="item.status" required="false" fluid autocomplete="false" />
                 </div> -->
                 <div v-if="!newItem.valueOf()">
-                    <Select v-model="item.status" :options="statuses" optionLabel="name" class="w-full md:w-56" />
+                    <label for="status" class="block font-bold mb-3">Status</label>
+                    <Select id="status" v-model="item.status" :options="statuses" optionLabel="name"
+                        optionValue="status" class="w-full md:w-56" />
                 </div>
             </div>
 
