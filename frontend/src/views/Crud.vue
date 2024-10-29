@@ -26,6 +26,7 @@ function openNew() {
     submitted.value = false;
     itemDialog.value = true;
     newItem.value = true;
+    item.status = 0;
 }
 
 function hideDialog() {
@@ -214,7 +215,7 @@ function getStatusColor(status) {
                             @click="ItemService.getNextAvailableBox().then((box_id) => (item.box_id = box_id))" />
                     </InputGroup>
                 </div>
-                <div>
+                <div v-if="!newItem.valueOf()">
                     <label for="status" class="block font-bold mb-3">Status</label>
                     <InputText id="status" v-model.trim="item.status" required="false" fluid autocomplete="false" />
                 </div>
