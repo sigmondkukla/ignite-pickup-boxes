@@ -122,6 +122,12 @@ function getStatusColor(status) {
             return 'info';
     }
 }
+
+const statuses = ref([
+    { name: 'In Box', status: 0 },
+    { name: 'Picked Up', status: 1 },
+    { name: 'Abandoned', status: 2 },
+]);
 </script>
 
 <template>
@@ -215,9 +221,12 @@ function getStatusColor(status) {
                             @click="ItemService.getNextAvailableBox().then((box_id) => (item.box_id = box_id))" />
                     </InputGroup>
                 </div>
-                <div v-if="!newItem.valueOf()">
+                <div v-if="!newItem.valueOf">
                     <label for="status" class="block font-bold mb-3">Status</label>
                     <InputText id="status" v-model.trim="item.status" required="false" fluid autocomplete="false" />
+                </div>
+                <div v-if="!newItem.valueOf">
+                    <Select v-model="item.status" :options="statuses" optionLabel="name" class="w-full md:w-56" />
                 </div>
             </div>
 
