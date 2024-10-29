@@ -21,11 +21,11 @@ import AppTopbar from './AppTopbar.vue';
                             <li>Copy the recipent's email address, and take note of the print number
                             </li>
                             <li>Click the
-                                <Tag value="New" icon="pi pi-plus"></Tag> button below
+                                <Tag value="New" icon="pi pi-plus" severity="secondary"></Tag> button below
                             </li>
                             <li>Type in the print number and paste the email address</li>
                             <li>Type in a box number or click
-                                <Tag value="Auto" icon="pi pi-bolt">Auto</Tag>
+                                <Tag value="Auto" icon="pi pi-bolt" severity="secondary">Auto</Tag>
                             </li>
                             <li>Click
                                 <Tag value="Save" severity="success" icon="pi pi-check">Save</Tag>
