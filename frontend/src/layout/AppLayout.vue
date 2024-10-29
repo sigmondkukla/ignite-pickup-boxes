@@ -20,10 +20,16 @@ import AppTopbar from './AppTopbar.vue';
                             <li>Mark the finished print <em>In Boxes</em> on the sheet</li>
                             <li>Copy the recipent's email address, and take note of the print number
                             </li>
-                            <li>Click the <em>+ New</em> button below</li>
+                            <li>Click the
+                                <Chip label="+ New" /> button below
+                            </li>
                             <li>Type in the print number and paste the email address</li>
-                            <li>Type in a box number or click <em>✨ Auto</em></li>
-                            <li>Click <em>Save</em></li>
+                            <li>Type in a box number or click
+                                <Chip label="✨ Auto" />
+                            </li>
+                            <li>Click
+                                <Chip label="Save" />
+                            </li>
                             <li>Click the blue unlock button next to the newly created print to open its box
                             </li>
                             <li>Place the print in the opened box, and close the door</li>
