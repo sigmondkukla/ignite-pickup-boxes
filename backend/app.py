@@ -74,7 +74,7 @@ def scan():
     if print_data is None: # Print not found
         print("Print not found")
         return jsonify({"status": "error", "message": "Print not found"})
-    if print_data.print_status == 1:
+    if print_data.status == 1:
         print("Print already picked up")
         return jsonify({"status": "error", "message": "Print already picked up"})
     
