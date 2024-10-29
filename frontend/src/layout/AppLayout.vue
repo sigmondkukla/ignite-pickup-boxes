@@ -10,11 +10,12 @@ import AppTopbar from './AppTopbar.vue';
         <div class="layout-main-container">
             <div class="layout-main">
                 <div>
-                    <Card>
-                        <template #title>Welcome to the Ignite Pickup Boxes control panel!</template>
-                        <template #content>
-                            <div>
-                                <p>
+                    <Accordion value="0">
+                        <AccordionPanel value="0">
+                            <AccordionHeader>Welcome (read me first)</AccordionHeader>
+                            <AccordionContent>
+                                <h2>Welcome to the Ignite Pickup Boxes control panel!</h2>
+                                <p class="m-0">
                                     Not sure where to start? Here's a quick guide:
                                 </p>
                                 <ol style="list-style-type: decimal;">
@@ -33,29 +34,34 @@ import AppTopbar from './AppTopbar.vue';
                                 <p>
                                     This may seem like a lot of steps, but I wanted to be thorough in this
                                     documentation.
-                                    It should only take a dozen seconds or so to complete each print delivery, and I'll
+                                    It should only take a dozen seconds or so to complete each print delivery, and
+                                    I'll
                                     remove or shrink this guide once everyone is comfortable with the process.
                                 </p>
                                 <p>
-                                    Note that this software automatically sends the recipent an email allowing them to
-                                    unlock their box. If they have trouble, you can unlock it for them by clicking the
+                                    Note that this software automatically sends the recipent an email allowing them
+                                    to
+                                    unlock their box. If they have trouble, you can unlock it for them by clicking
+                                    the
                                     blue
                                     unlock button next to their print.
                                 </p>
                                 <p>
-                                    By default, the below data table is sorted by print number, but you can click any
+                                    By default, the below data table is sorted by print number, but you can click
+                                    any
                                     column
                                     header to sort by that column instead. You can also search for a print number,
                                     email, or
                                     box number by typing in the search box above the table.
                                 </p>
                                 <p>
-                                    If you have any questions or suggestions, please don't hesitate to reach out to Sig
+                                    If you have any questions or suggestions, please don't hesitate to reach out to
+                                    Sig
                                     while the bugs are being worked out. Thanks for your help!
                                 </p>
-                            </div>
-                        </template>
-                    </Card>
+                            </AccordionContent>
+                        </AccordionPanel>
+                    </Accordion>
                 </div>
                 <router-view></router-view>
             </div>
