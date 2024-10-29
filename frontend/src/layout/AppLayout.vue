@@ -11,11 +11,11 @@ import AppTopbar from './AppTopbar.vue';
             <div class="layout-main">
                 <div>
                     <Panel header="Welcome (read me first!)" toggleable>
-                        <h2>Welcome to the Ignite Pickup Boxes control panel!</h2>
+                        <p class="m-0"><strong>Welcome to the Ignite Pickup Boxes control panel!</strong></p>
                         <p class="m-0">
                             Not sure where to start? Here's a quick guide:
                         </p>
-                        <ol style="list-style-type: decimal;">
+                        <ol style="list-style-type: decimal; margin: revert; padding: revert;">
                             <li>Open the <em>Makerspace Print Tracker</em> spreadsheet in a new tab</li>
                             <li>Mark the finished print <em>In Boxes</em> on the sheet</li>
                             <li>Copy the recipent's email address, and take note of the print number
@@ -28,14 +28,14 @@ import AppTopbar from './AppTopbar.vue';
                             </li>
                             <li>Place the print in the opened box, and close the door</li>
                         </ol>
-                        <p>
+                        <p class="m-0">
                             This may seem like a lot of steps, but I wanted to be thorough in this
                             documentation.
                             It should only take a dozen seconds or so to complete each print delivery, and
                             I'll
                             remove or shrink this guide once everyone is comfortable with the process.
                         </p>
-                        <p>
+                        <p class="m-0">
                             Note that this software automatically sends the recipent an email allowing them
                             to
                             unlock their box. If they have trouble, you can unlock it for them by clicking
@@ -43,7 +43,7 @@ import AppTopbar from './AppTopbar.vue';
                             blue
                             unlock button next to their print.
                         </p>
-                        <p>
+                        <p class="m-0">
                             By default, the below data table is sorted by print number, but you can click
                             any
                             column
@@ -51,7 +51,7 @@ import AppTopbar from './AppTopbar.vue';
                             email, or
                             box number by typing in the search box above the table.
                         </p>
-                        <p>
+                        <p class="m-0">
                             If you have any questions or suggestions, please don't hesitate to reach out to
                             Sig
                             while the bugs are being worked out. Thanks for your help!
