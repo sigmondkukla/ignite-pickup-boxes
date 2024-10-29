@@ -221,11 +221,11 @@ const statuses = ref([
                             @click="ItemService.getNextAvailableBox().then((box_id) => (item.box_id = box_id))" />
                     </InputGroup>
                 </div>
-                <div v-if="!newItem.valueOf">
+                <!-- <div v-if="!newItem.valueOf()">
                     <label for="status" class="block font-bold mb-3">Status</label>
                     <InputText id="status" v-model.trim="item.status" required="false" fluid autocomplete="false" />
-                </div>
-                <div v-if="!newItem.valueOf">
+                </div> -->
+                <div v-if="!newItem.valueOf()">
                     <Select v-model="item.status" :options="statuses" optionLabel="name" class="w-full md:w-56" />
                 </div>
             </div>
