@@ -21,14 +21,14 @@ import AppTopbar from './AppTopbar.vue';
                             <li>Copy the recipent's email address, and take note of the print number
                             </li>
                             <li>Click the
-                                <Chip label="+ New" /> button below
+                                <Tag value="New" severity="primary" icon="pi pi-plus"></Tag> button below
                             </li>
                             <li>Type in the print number and paste the email address</li>
                             <li>Type in a box number or click
-                                <Chip label="✨ Auto" />
+                                <Tag value="Auto" severity="primary" icon="pi pi-sparkles">Auto</Tag>
                             </li>
                             <li>Click
-                                <Chip label="Save" />
+                                <Tag value="Save" severity="success" icon="pi pi-check">Save</Tag>
                             </li>
                             <li>Click the blue unlock button next to the newly created print to open its box
                             </li>
