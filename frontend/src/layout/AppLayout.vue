@@ -10,7 +10,7 @@ import AppTopbar from './AppTopbar.vue';
         <div class="layout-main-container">
             <div class="layout-main">
                 <div>
-                    <Panel header="Welcome (read me first!)" toggleable>
+                    <Panel header="Welcome (read me first!)" toggleable class="mb-3">
                         <p class="m-0"><strong>Welcome to the Ignite Pickup Boxes control panel!</strong></p>
                         <p class="m-0">
                             Not sure where to start? Here's a quick guide:
