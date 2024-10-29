@@ -21,7 +21,7 @@ import AppTopbar from './AppTopbar.vue';
                             <li>Copy the recipent's email address, and take note of the print number
                             </li>
                             <li>Click the
-                                <Tag value="New" icon="pi pi-plus" severity="primary"></Tag> button below
+                                <Tag value="New" icon="pi pi-plus" severity="secondary"></Tag> button below
                             </li>
                             <li>Type in the print number and paste the email address</li>
                             <li>Type in a box number or click
