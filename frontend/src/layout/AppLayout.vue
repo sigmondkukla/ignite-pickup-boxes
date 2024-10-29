@@ -16,8 +16,7 @@ import AppTopbar from './AppTopbar.vue';
                             <p class="m-0">
                                 Not sure where to start? Here's a quick guide:
                             </p>
-                            <p class="m-0">
-                            <ol>
+                            <ol style="list-style-type: decimal;">
                                 <li>Open the <em>Makerspace Print Tracker</em> spreadsheet in a new tab</li>
                                 <li>Mark the finished print <em>In Boxes</em> on the sheet</li>
                                 <li>Copy the recipent's email address, and take note of the print number
@@ -29,7 +28,6 @@ import AppTopbar from './AppTopbar.vue';
                                 <li>Click the blue unlock button next to the newly created print to open its box</li>
                                 <li>Place the print in the opened box, and close the door</li>
                             </ol>
-                            </p>
                             <p class="m-0">
                                 This may seem like a lot of steps, but I wanted to be thorough in this documentation.
                                 It should only take a dozen seconds or so to complete each print delivery, and I'll
