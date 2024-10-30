@@ -50,3 +50,37 @@ A DHCP reserved address with DNS hostname set up would allow for an ideal user e
 
 - When starting up the system, ensure that the solenoid power supply is turned off using the red switch on the back of the boxes
   - Failure to do so may cause some or all boxes to open before the system pulls the box pins low
+
+## Database
+
+This project requires a SQL-like database to store information about the boxes and prints.
+I'm using Postgres right now, hosted in a Docker container on the Raspberry Pi running the master box.
+
+There are two tables in the database, with a preview of each below:
+
+### box
+
+| id | print_id | assign_enabled |
+|----|----------|----------------|
+| 0  | 123      | 1              |
+| 1  | -1       | 1              |
+| 2  | -1       | 0              |
+
+The box table contains ids (an index of each box based on the relay associated with it), the print_id currently in the box (or -1 if the box is empty), and an integer boolean representing if the box can be automatically assigned to or not.
+
+### print
+
+| id | print_number | email                 | code   | box_id | status |
+|----|--------------|-----------------------|--------|--------|--------|
+| 0  | 42           | recipient@example.com | 123456 | 0      | 0      |
+
+The print table contains the following columns:
+
+- `id`: not exposed to frontend, internal print id guaranteed unique
+- `print_number`: exposed to frontend, not guaranteed unique because of user input
+- `email`: the email of the print recipient
+- `code`: the numeric code emailed as a QR code to the recipient
+- `status`: an enum for the status of the pickup
+  - `0`: in box
+  - `1`: picked up
+  - `2`: abandoned
