@@ -1,0 +1,11 @@
+[Unit]
+Description=Ignite Pickup Boxes Frontend Dev Server
+After=network.target
+
+[Service]
+WorkingDirectory=/home/orangepi/Programming/daily-display/frontend
+ExecStart=/usr/bin/screen -dmS ignite-pickup-boxes-frontend /home/ignite/ignite-pickup-boxes/frontend/start_frontend.sh
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
