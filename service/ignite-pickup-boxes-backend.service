@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/home/ignite/ignite-pickup-boxes/backend/
-ExecStart=/usr/bin/screen -dmS ignite-pickup-boxes-backend /home/ignite/ignite-pickup-boxes/start_app.sh
+ExecStart=/usr/bin/screen -dmS ignite-pickup-boxes-backend /home/ignite/ignite-pickup-boxes/backend/start_app.sh
 Type=forking
 
 [Install]
