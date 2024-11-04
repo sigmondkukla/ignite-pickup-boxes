@@ -1,2 +1,2 @@
 #!/bin/bash
-bun dev -- --host
+/home/ignite/.bun/bin/bun dev -- --host
