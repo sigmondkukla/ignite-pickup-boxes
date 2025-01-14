@@ -91,8 +91,11 @@ class Database:
         self.ensure_cursor()
         code = random.randint(100000, 999999)
         self.cur.execute("INSERT INTO print (print_number, email, code, box_id, status) VALUES (%s, %s, %s, %s, %s);", (print_number, email, code, box_id, 0))
-        # Mark the print number in the box
-        self.cur.execute("UPDATE box SET print_id = %s WHERE id = %s;", (print_number, box_id))
+        # Mark the print id in the box
+        # get the newly created print id
+        self.cur.execute("SELECT id FROM print WHERE print_number = %s;", (print_number,))
+        print_id = self.cur.fetchone()[0]
+        self.cur.execute("UPDATE box SET print_id = %s WHERE id = %s;", (print_id, box_id))
         self.conn.commit()
 
     # Print status options:
@@ -140,7 +143,7 @@ class Database:
     def delete_print(self, print_id):
         self.ensure_cursor()
         self.cur.execute("DELETE FROM print WHERE id = %s;", (print_id,))
-        # make the box available
+        # make the box available again
         self.cur.execute("UPDATE box SET print_id = -1 WHERE print_id = %s;", (print_id,))
         self.conn.commit()
 
