@@ -36,7 +36,7 @@ void open(int box)
     return;
   }
 
-  digitalWrite(box_pins[box - 1], 0); // set the pin to 0 to activate the relay (and box lock solenoid)
+  digitalWrite(box_pins[box], 0); // set the pin to 0 to activate the relay (and box lock solenoid)
   delay(500);                         // wait for half a second
-  digitalWrite(box_pins[box - 1], 1); // set the pin back to 1 to deactivate
+  digitalWrite(box_pins[box], 1); // set the pin back to 1 to deactivate
 }
