@@ -3,11 +3,18 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 import database as db
-from boxes import Boxes
+from boxes import Boxes, GPIOBoxes, ArduinoBoxes
 from emailer import Emailer
 
-NUM_BOXES = 8 # Number of boxes in the system
-BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
+NUM_BOXES = 8 # Number of boxes in each stack
+
+# GPIO boxes (stack 0)
+GPIO_BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
+
+# Arduino boxes
+STACK_1_SERIAL_PORT = ""; # TODO
+STACK_2_SERIAL_PORT = ""; # TODO
+STACK_3_SERIAL_PORT = ""; # TODO
 
 load_dotenv()
 app = Flask(__name__)
@@ -20,7 +27,10 @@ database = db.Database(database=os.getenv("PG_DATABASE"),
                        host=os.getenv("PG_HOST"),
                        port=os.getenv("PG_PORT"))
 
-boxes = Boxes(NUM_BOXES, BOX_PINS)
+stack_0 = GPIOBoxes(NUM_BOXES, GPIO_BOX_PINS) # GPIO-controlled boxes (stack 0)
+stack_1 = ArduinoBoxes(NUM_BOXES, STACK_1_SERIAL_PORT) # Arduino-controlled boxes (stack 1)
+stack_2 = ArduinoBoxes(NUM_BOXES, STACK_2_SERIAL_PORT) # Arduino-controlled boxes (stack 2)
+stack_3 = ArduinoBoxes(NUM_BOXES, STACK_3_SERIAL_PORT) # Arduino-controlled boxes (stack 3)
 
 emailer = Emailer(email_user=os.getenv("EMAIL_USER"),
                   email_password=os.getenv("EMAIL_PASSWORD"))
@@ -57,7 +67,14 @@ def unlock_print():
     print_data = database.get_print(data["id"])
     if print_data is None:
         return jsonify({"status": "error", "message": "Print not found"})
-    boxes.open_box(print_data.box_id)
+    
+    # Determine and open the box
+    stack_index = print_data.box_id // NUM_BOXES # Determine which stack the box is in
+    box_index = print_data.box_id % NUM_BOXES # Determine which box in the stack to open
+
+    stack = [stack_0, stack_1, stack_2, stack_3][stack_index] # Get the stack object for the box's stack
+    stack.open_box(box_index) # Open the offset box in the stack
+
     return jsonify({"status": "success"})
     
 @app.route("/api/get_next_available_box", methods=["GET"])
@@ -78,7 +95,12 @@ def scan():
         print("Print already picked up")
         return jsonify({"status": "error", "message": "Print already picked up"})
     
-    boxes.open_box(print_data.box_id) # Open the box
+    # Determine and open the box
+    stack_index = print_data.box_id // NUM_BOXES # Determine which stack the box is in
+    box_index = print_data.box_id % NUM_BOXES # Determine which box in the stack to open
+
+    stack = [stack_0, stack_1, stack_2, stack_3][stack_index] # Get the stack object for the box's stack
+    stack.open_box(box_index) # Open the offset box in the stack
     
     # box = database.get_box(print_data.box_id)
     database.set_box_print_id(print_data.box_id, -1) # Make the box available again
