@@ -42,7 +42,8 @@ class ArduinoBoxes(Boxes): # arduino-controlled boxes subclass
         if box_num >= self.num_boxes:
             raise ValueError(f"Box number must be less than the number of boxes ({self.num_boxes})")
 
-        self.ser.write(bytes([box_num + 1])) # send box number to arduino to open box
+        # send box number as a string followed by a newline character to the arduino
+        self.ser.write(f"{box_num}\n".encode())
 
     def cleanup(self):
         self.ser.close() # close serial port
