@@ -11,12 +11,13 @@ NUM_BOXES = 8 # Number of boxes in each stack
 # GPIO boxes (stack 0)
 GPIO_BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
 
-# Arduino boxes
-STACK_1_SERIAL_PORT = ""; # TODO
-STACK_2_SERIAL_PORT = ""; # TODO
-STACK_3_SERIAL_PORT = ""; # TODO
-
 load_dotenv()
+
+# Arduino boxes
+STACK_1_SERIAL_PORT = os.getenv("STACK_1_SERIAL_PORT")
+STACK_2_SERIAL_PORT = os.getenv("STACK_2_SERIAL_PORT")
+STACK_3_SERIAL_PORT = os.getenv("STACK_3_SERIAL_PORT")
+
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
