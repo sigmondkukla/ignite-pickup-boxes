@@ -6,14 +6,15 @@ import database as db
 from boxes import Boxes, GPIOBoxes, ArduinoBoxes
 from emailer import Emailer
 
-NUM_BOXES = 8 # Number of boxes in each stack
+NUM_STACK_BOXES = 8 # Number of boxes in each stack
 
 # GPIO boxes (stack 0)
-GPIO_BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
+# GPIO_BOX_PINS = [29, 31, 33, 35, 37, 36, 38, 40]
 
 load_dotenv()
 
 # Arduino boxes
+STACK_0_SERIAL_PORT = os.getenv("STACK_0_SERIAL_PORT")
 STACK_1_SERIAL_PORT = os.getenv("STACK_1_SERIAL_PORT")
 STACK_2_SERIAL_PORT = os.getenv("STACK_2_SERIAL_PORT")
 STACK_3_SERIAL_PORT = os.getenv("STACK_3_SERIAL_PORT")
@@ -28,10 +29,13 @@ database = db.Database(database=os.getenv("PG_DATABASE"),
                        host=os.getenv("PG_HOST"),
                        port=os.getenv("PG_PORT"))
 
-stack_0 = GPIOBoxes(NUM_BOXES, GPIO_BOX_PINS) # GPIO-controlled boxes (stack 0)
-stack_1 = ArduinoBoxes(NUM_BOXES, STACK_1_SERIAL_PORT) # Arduino-controlled boxes (stack 1)
-stack_2 = ArduinoBoxes(NUM_BOXES, STACK_2_SERIAL_PORT) # Arduino-controlled boxes (stack 2)
-stack_3 = ArduinoBoxes(NUM_BOXES, STACK_3_SERIAL_PORT) # Arduino-controlled boxes (stack 3)
+# stack_0 = GPIOBoxes(NUM_BOXES, GPIO_BOX_PINS) # GPIO-controlled boxes (stack 0)
+stack_0 = ArduinoBoxes(NUM_STACK_BOXES, STACK_0_SERIAL_PORT) # Arduino-controlled boxes (stack 0)
+stack_1 = ArduinoBoxes(NUM_STACK_BOXES, STACK_1_SERIAL_PORT) # Arduino-controlled boxes (stack 1)
+stack_2 = ArduinoBoxes(NUM_STACK_BOXES, STACK_2_SERIAL_PORT) # Arduino-controlled boxes (stack 2)
+stack_3 = ArduinoBoxes(NUM_STACK_BOXES, STACK_3_SERIAL_PORT) # Arduino-controlled boxes (stack 3)
+
+stacks = [stack_0, stack_1, stack_2, stack_3]
 
 emailer = Emailer(email_user=os.getenv("EMAIL_USER"),
                   email_password=os.getenv("EMAIL_PASSWORD"))
@@ -70,11 +74,9 @@ def unlock_print():
         return jsonify({"status": "error", "message": "Print not found"})
     
     # Determine and open the box
-    stack_index = print_data.box_id // NUM_BOXES # Determine which stack the box is in
-    box_index = print_data.box_id % NUM_BOXES # Determine which box in the stack to open
-
-    stack = [stack_0, stack_1, stack_2, stack_3][stack_index] # Get the stack object for the box's stack
-    stack.open_box(box_index) # Open the offset box in the stack
+    stack_index = print_data.box_id // NUM_STACK_BOXES # Determine which stack the box is in
+    box_index = print_data.box_id % NUM_STACK_BOXES # Determine which box in the stack to open
+    stacks[stack_index].open_box(box_index) # Open the offset box in the stack
 
     return jsonify({"status": "success"})
     
@@ -97,11 +99,9 @@ def scan():
         return jsonify({"status": "error", "message": "Print already picked up"})
     
     # Determine and open the box
-    stack_index = print_data.box_id // NUM_BOXES # Determine which stack the box is in
-    box_index = print_data.box_id % NUM_BOXES # Determine which box in the stack to open
-
-    stack = [stack_0, stack_1, stack_2, stack_3][stack_index] # Get the stack object for the box's stack
-    stack.open_box(box_index) # Open the offset box in the stack
+    stack_index = print_data.box_id // NUM_STACK_BOXES # Determine which stack the box is in
+    box_index = print_data.box_id % NUM_STACK_BOXES # Determine which box in the stack to open
+    stacks[stack_index].open_box(box_index) # Open the offset box in the stack
     
     # box = database.get_box(print_data.box_id)
     database.set_box_print_id(print_data.box_id, -1) # Make the box available again
