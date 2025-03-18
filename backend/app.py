@@ -46,21 +46,24 @@ def api():
 
 @app.route("/api/prints", methods=["GET", "POST", "PUT", "DELETE"])
 def prints():
-    if request.method == "GET":
+    if request.method == "GET": # return all prints
         return jsonify([print.to_dict() for print in database.get_prints()])
-    elif request.method == "POST":
+    
+    elif request.method == "POST": # create a new print
         data = request.json
-        database.create_print(data["print_number"], data["email"], data["box_id"])
-        new_print = database.get_print_by_number(data["print_number"])
-        emailer.send_pickup_email(new_print.email, new_print.code)
+        database.create_print(data["print_number"], data["email"], data["box_id"]) # add print to db with random code
+        new_print = database.get_print_by_number(data["print_number"]) # get the new print so we know the code
+        emailer.send_pickup_email(new_print.email, new_print.code) # send email to user with code
         return jsonify({"status": "success"})
-    elif request.method == "PUT":
+    
+    elif request.method == "PUT": # modify an existing print
         data = request.json
         database.update_print(data)
         return jsonify({"status": "success"})
+    
     elif request.method == "DELETE":
         data = request.json
-        try: # attempt to delete multuple items, if the ids key is present it will not fail
+        try: # attempt to delete multiple items, if the ids key is present it will not fail
             database.delete_prints(data["ids"])
         except KeyError: # the ids key was not present, so we catch and assume we are deleting a single item
             database.delete_print(data["id"])

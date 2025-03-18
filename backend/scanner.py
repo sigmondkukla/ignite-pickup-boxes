@@ -26,7 +26,7 @@ while True:
     if readline[0:3] != "P01":
         print(f"Invalid code: {readline}")
         continue
-    code = readline[3:]
+    code = readline[3:] # remove the "P01" prefix
     print(f"Scanned: {code}")
 
     try:
