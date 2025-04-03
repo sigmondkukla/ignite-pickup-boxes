@@ -11,7 +11,13 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'crud',
+                    alias: '/crud',
                     component: () => import('@/views/Crud.vue')
+                },
+                {
+                    path: '/boxes',
+                    name: 'boxes',
+                    component: () => import('@/views/Boxes.vue')
                 },
             ]
         },
