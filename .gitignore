@@ -1,0 +1,18 @@
+
+# Local secrets / credentials
+.env
+**/.env
+credentials.json
+**/credentials.json
+credentials/
+**/credentials/
+
+# Local/generated files
+venv/
+.venv/
+__pycache__/
+node_modules/
+frontend/dist/
+
+# Local backup files
+*.bak_*

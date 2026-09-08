@@ -1,0 +1,13 @@
+[Unit]
+Description=Ignite Pickup Boxes Scanner Recover
+After=multi-user.target
+Wants=ignite-pickup-boxes-scanner.service
+
+[Service]
+Type=oneshot
+User=ignite
+WorkingDirectory=/home/ignite/ignite-pickup-boxes/backend
+ExecStart=/home/ignite/ignite-pickup-boxes/backend/recover_scanners.sh
+
+[Install]
+WantedBy=multi-user.target

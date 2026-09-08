@@ -5,6 +5,11 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
+            path: '/kiosk',
+            name: 'kiosk',
+            component: () => import('@/views/KioskView.vue')
+        },
+        {
             path: '/',
             component: AppLayout,
             children: [
@@ -19,8 +24,13 @@ const router = createRouter({
                     name: 'boxes',
                     component: () => import('@/views/Boxes.vue')
                 },
+                {
+                    path: '/settings',
+                    name: 'settings',
+                    component: () => import('@/views/Settings.vue')
+                }
             ]
-        },
+        }
     ]
 });
 
