@@ -1,3 +1,4 @@
 #!/bin/bash
+cd /home/ignite/ignite-pickup-boxes/backend
 source venv/bin/activate
-flask run --host=0.0.0.0 --debug --port=5000
+python3 app.py
