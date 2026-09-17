@@ -7,27 +7,33 @@ import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
 
+import InputNumber from 'primevue/inputnumber';
+
 import '@/assets/styles.scss';
 import '@/assets/tailwind.css';
 import axios from 'axios';
 
-// Detect base URL from window.location
-const baseURL = window.location.href.split(':5173')[0] + ':5000/api';
-// console.log('baseURL:', baseURL);
-axios.defaults.baseURL = baseURL;
+// Production-safe: nginx proxies /api → backend
+axios.defaults.baseURL = '/api';
+// optional (only if you use cookies/sessions)
+// axios.defaults.withCredentials = true;
 
 const app = createApp(App);
 
 app.use(router);
+
 app.use(PrimeVue, {
-    theme: {
-        preset: Aura,
-        options: {
-            darkModeSelector: '.app-dark'
-        }
+  theme: {
+    preset: Aura,
+    options: {
+      darkModeSelector: '.app-dark'
     }
+  }
 });
+
 app.use(ToastService);
 app.use(ConfirmationService);
+
+app.component('InputNumber', InputNumber);
 
 app.mount('#app');

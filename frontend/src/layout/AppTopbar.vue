@@ -6,12 +6,9 @@ const { toggleDarkMode, isDarkTheme } = useLayout();
 
 <template>
     <div class="layout-topbar">
-        <div class="layout-topbar-logo-container">
+        <div class="layout-topbar-logo-container" style="padding-left: 0;">
             <router-link to="/" class="layout-topbar-logo">
-                <svg version="1.1" viewBox="0 0 512.25 182.11" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-                    <!-- SVG content omitted for brevity -->
-                </svg>
-                <span>Ignite Pickup Boxes</span>
+                <span style="white-space: nowrap;">Makerspace Pickup Boxes</span>
             </router-link>
         </div>
 

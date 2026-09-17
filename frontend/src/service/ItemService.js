@@ -1,89 +1,72 @@
 import axios from 'axios';
 
 const getPrints = async () => {
-    try {
-        const response = await axios.get('/prints');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching prints:', error);
-        throw error;
-    }
+  const response = await axios.get('/prints');
+  return response.data;
 };
 
 const deletePrint = async (id) => {
-    try {
-        const response = await axios.delete(`/prints`, { data: { id } });
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting print:', error);
-        throw error;
-    }
+  const response = await axios.delete('/prints', { data: { id } });
+  return response.data;
+};
+
+const deletePrints = async (ids) => {
+  const response = await axios.delete('/prints', { data: { ids } });
+  return response.data;
 };
 
 const updatePrint = async (print) => {
-    try {
-        const response = await axios.put(`/prints`, print);
-        return response.data;
-    } catch (error) {
-        console.error('Error updating print:', error);
-        throw error;
-    }
+  const response = await axios.put('/prints', print);
+  return response.data;
 };
 
 const createPrint = async (print) => {
-    try {
-        const response = await axios.post(`/prints`, print);
-        return response.data;
-    } catch (error) {
-        console.error('Error creating print:', error);
-        throw error;
-    }
-}
-
-const getNextAvailableBox = async () => {
-    try {
-        const response = await axios.get('/get_next_available_box');
-        // console.log('getNextAvailableBox data:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching next available box:', error);
-        throw error;
-    }
-}
-
-const deletePrints = async (ids) => {
-    try {
-        const response = await axios.delete(`/prints`, { data: { ids } });
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting prints:', error);
-        throw error;
-    }
+  const response = await axios.post('/prints', print);
+  return response.data;
 };
 
 const unlockPrint = async (id) => {
-    try {
-        const response = await axios.post(`/prints/unlock`, { id });
-        return response.data;
-    } catch (error) {
-        console.error('Error unlocking print:', error);
-        throw error;
-    }
-}
-
-const ItemService = {
-    // Print CRUD
-    getPrints,
-    deletePrint,
-    deletePrints,
-    updatePrint,
-    createPrint,
-
-    // Print unlock
-    unlockPrint,
-    
-    // Boxes
-    getNextAvailableBox
+  const response = await axios.post('/prints/unlock', { id });
+  return response.data;
 };
 
-export default ItemService;
+const getNextAvailableBox = async () => {
+  const response = await axios.get('/get_next_available_box');
+  return response.data;
+};
+
+// Disabled boxes
+const getDisabledBoxes = async () => {
+  const response = await axios.get('/disabled_boxes');
+  return response.data;
+};
+
+const addDisabledBox = async (box_id, reason = '') => {
+  const response = await axios.post('/disabled_boxes', { box_id, reason });
+  return response.data;
+};
+
+const removeDisabledBox = async (box_id) => {
+  const response = await axios.delete(`/disabled_boxes/${box_id}`);
+  return response.data;
+};
+
+export default {
+  // Print CRUD
+  getPrints,
+  deletePrint,
+  deletePrints,
+  updatePrint,
+  createPrint,
+
+  // Print unlock
+  unlockPrint,
+
+  // Boxes
+  getNextAvailableBox,
+
+  // Disabled boxes
+  getDisabledBoxes,
+  addDisabledBox,
+  removeDisabledBox
+};

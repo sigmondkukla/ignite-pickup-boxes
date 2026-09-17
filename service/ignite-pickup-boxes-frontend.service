@@ -1,11 +1,15 @@
 [Unit]
-Description=Ignite Pickup Boxes Frontend Dev Server
+Description=Ignite Pickup Boxes Frontend (Vite Dev Server)
 After=network.target
 
 [Service]
+Type=simple
+User=ignite
 WorkingDirectory=/home/ignite/ignite-pickup-boxes/frontend
-ExecStart=/usr/bin/screen -dmS ignite-pickup-boxes-frontend /home/ignite/ignite-pickup-boxes/frontend/start_frontend.sh
-Type=forking
+Environment=NODE_ENV=development
+ExecStart=/usr/bin/npm run dev -- --host 0.0.0.0 --port 5173
+Restart=always
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target

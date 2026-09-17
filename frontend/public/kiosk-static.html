@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ignite Kiosk</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #f7f7f7;
+      text-align: center;
+    }
+
+    h1 { font-size: 36px; }
+    h2 { margin-top: 20px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 8px;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    .box {
+      height: 60px;
+      background: #8fd19e;
+      border: 2px solid gold;
+      border-radius: 10px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scanner {
+      background: gray;
+      color: white;
+      font-size: 12px;
+    }
+
+    .highlight {
+      background: gold;
+      border: 3px solid black;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>WELCOME TO THE MAKERSPACE</h1>
+<p>Scan your QR code to open your box</p>
+
+<h2>BOX LOCATION MAP</h2>
+
+<div id="grid" class="grid"></div>
+
+<script>
+const layout = [
+1,2,3,4,5,6,7,8,
+9,"S",10,11,12,13,14,"S",
+15,16,17,18,19,20,21,22,
+23,24,25,26,27,28,29,30
+];
+
+const grid = document.getElementById("grid");
+
+layout.forEach(item => {
+  const d = document.createElement("div");
+  d.className = "box";
+
+  if(item === "S"){
+    d.classList.add("scanner");
+    d.innerText = "SCANNER";
+  } else {
+    d.innerText = item;
+  }
+
+  grid.appendChild(d);
+});
+</script>
+
+</body>
+</html>
